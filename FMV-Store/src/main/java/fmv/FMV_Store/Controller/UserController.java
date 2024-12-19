@@ -3,7 +3,9 @@ package fmv.FMV_Store.Controller;
 import fmv.FMV_Store.DTO.Request.UserCreationRequest;
 import fmv.FMV_Store.Entity.User;
 import fmv.FMV_Store.Service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    User createUser(@RequestBody UserCreationRequest request) {
+    User createUser(@RequestBody @Valid UserCreationRequest request) {
         return userService.createUser(request);
     }
 

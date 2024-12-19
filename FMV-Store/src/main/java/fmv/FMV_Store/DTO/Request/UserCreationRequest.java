@@ -1,8 +1,14 @@
 package fmv.FMV_Store.DTO.Request;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 public class UserCreationRequest {
     private String username;
+
+    @Size(min = 5, message = "password must at least 5 characters")
     private String password;
+    @NotEmpty
     private String email;
     private String phone;
     private String role;

@@ -1,5 +1,6 @@
 package fmv.FMV_Store.Controller;
 
+import fmv.FMV_Store.DTO.Request.ApiResponse;
 import fmv.FMV_Store.DTO.Request.UserCreationRequest;
 import fmv.FMV_Store.Entity.User;
 import fmv.FMV_Store.Service.UserService;
@@ -18,8 +19,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    User createUser(@RequestBody @Valid UserCreationRequest request) {
-        return userService.createUser(request);
+    ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request){
+        ApiResponse api = new ApiResponse<>();
+
+        api.setCode(1000);
+        api.setData(userService.createUser(request));
+        return api;
     }
 
     @GetMapping

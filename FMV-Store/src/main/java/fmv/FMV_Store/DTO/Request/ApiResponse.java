@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 //Dung de bo cac thuoc tinh == null ra khoi api
 @JsonInclude(JsonInclude.Include.NON_NULL)

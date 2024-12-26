@@ -1,5 +1,6 @@
 package fmv.FMV_Store.Service;
 
+import fmv.FMV_Store.Const.Role;
 import fmv.FMV_Store.DTO.Request.UserCreationRequest;
 import fmv.FMV_Store.DTO.Request.UserUpdateRequest;
 import fmv.FMV_Store.DTO.Response.UserResponse;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -23,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
+    PasswordEncoder passwordEncoder;
     UserRepository userRepository;
 
     public User createUser(UserCreationRequest request) {
@@ -30,8 +33,10 @@ public class UserService {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         User user = UserMapper.toUser(request);
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.USER.name());
+        user.setRoles(roles);
         return userRepository.save(user);
 
     }

@@ -1,14 +1,13 @@
 package fmv.FMV_Store.DTO.Response;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -20,8 +19,10 @@ public class UserResponse {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
     String username;
-    String password;
+//    String password;
     String email;
     String phone;
     String role;
+    @ElementCollection
+    Set<String> roles;
 }

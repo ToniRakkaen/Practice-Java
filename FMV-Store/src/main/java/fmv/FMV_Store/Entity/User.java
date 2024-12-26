@@ -1,17 +1,17 @@
 package fmv.FMV_Store.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
-@Entity
+@Builder
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,4 +21,8 @@ public class User {
     String email;
     String phone;
     String role;
+    @ElementCollection
+    Set<String> roles;
 }
+
+

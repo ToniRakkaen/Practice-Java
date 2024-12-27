@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -24,21 +26,19 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request){
-        ApiResponse api = new ApiResponse<>();
-
-        api.setCode(1000);
-        api.setData(userService.createUser(request));
-        return api;
+    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request){
+        return ApiResponse.<UserResponse>builder()
+                .data(userService.createUser(request))
+                .build();
     }
 
     @GetMapping
-    ApiResponse<Object> getAllUsers() {
+    ApiResponse<List<UserResponse>> getAllUsers() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("username: {}", authentication.getName());
         authentication.getAuthorities().forEach(grantedAuthority -> log.info("authority: {}", grantedAuthority));
 
-        return ApiResponse.builder()
+        return ApiResponse.<List<UserResponse>>builder()
                 .data(userService.getAllUsers())
                 .build();
     }
@@ -59,4 +59,10 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/myInfor")
+    ApiResponse<UserResponse> getInfor() {
+        return ApiResponse.<UserResponse>builder()
+                .data(userService.getMyInfor())
+                .build();
+    }
 }

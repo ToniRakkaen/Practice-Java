@@ -4,6 +4,7 @@ import fmv.FMV_Store.Const.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,6 +21,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {"/users",
     "/auth/login",
@@ -36,7 +38,7 @@ public class SecurityConfig {
                 request
                         .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/users").hasRole(Role.ADMIN.name())
+//                        .requestMatchers(HttpMethod.GET, "/users").hasRole(Role.ADMIN.name())
 
                         .anyRequest().authenticated()
                 );
@@ -44,6 +46,7 @@ public class SecurityConfig {
                 oauth2.jwt(jwtConfigurer ->
                         jwtConfigurer.decoder(jwtDecoder())
                                 .jwtAuthenticationConverter(jwtConverter()))
+                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 );
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);

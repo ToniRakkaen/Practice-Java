@@ -1,6 +1,8 @@
 package fmv.FMV_Store.Entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,17 +14,10 @@ import java.util.Set;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class User {
+public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
-    String username;
-    String password;
-    String email;
-    String phone;
-    String role;
+    String name;
+    String description;
     @ManyToMany
-    Set<Role> roles;
+    Set<Permission> permissions;
 }
-
-

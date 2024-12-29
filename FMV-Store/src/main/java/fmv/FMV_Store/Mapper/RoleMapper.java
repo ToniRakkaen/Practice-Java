@@ -5,14 +5,13 @@ import fmv.FMV_Store.DTO.Response.PermissionResponse;
 import fmv.FMV_Store.DTO.Response.RoleResponse;
 import fmv.FMV_Store.Entity.Permission;
 import fmv.FMV_Store.Entity.Role;
-import fmv.FMV_Store.Repository.PermissionRepository;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RoleMapper {
 
-    public static Role toRole(RoleRequest request, PermissionRepository permissionRepository) {
+    public static Role toRole(RoleRequest request) {
         if (request == null) return null;
         Role role = new Role();
         role.setName(request.getName());
@@ -20,7 +19,12 @@ public class RoleMapper {
 
         Set<Permission> permissonList = request.getPermissions()
                 .stream()
-                .map(name -> permissionRepository.findById(name).orElseThrow()).collect(Collectors.toSet());
+                .map(name -> {
+                    Permission permission = new Permission();
+                    permission.setName(name);
+                    return permission;
+
+                }).collect(Collectors.toSet());
 
         role.setPermissions(permissonList);
         return role;
